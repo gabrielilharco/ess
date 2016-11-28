@@ -1,4 +1,7 @@
 import os
+import dj_database_url
+from decouple import config, Csv
+from unipath import Path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -18,6 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ees.core'
 ]
 
 MIDDLEWARE = [
@@ -53,10 +57,8 @@ WSGI_APPLICATION = 'ees.wsgi.application'
 
 # Database
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dj_database_url.config(
+      default = config('DATABASE_URL'))
 }
 
 
