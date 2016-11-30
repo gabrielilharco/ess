@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+"""Project Settings."""
 import os
 import dj_database_url
 from decouple import config, Csv
@@ -6,11 +9,11 @@ from unipath import Path
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DEBUG=True
-CSRF_COOKIE_SECURE=False
-SESSION_COOKIE_SECURE=False
-SECRET_KEY='1982nd8sj&6^09213mDkj~%@^@(*#BX}|{_)*?><})'
-DATABASE_URL='postgres://ees:ees123@127.0.0.1:5432/eesdb'
+DEBUG = True
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
+SECRET_KEY = '1982nd8sj&6^09213mDkj~%@^@(*#BX}|{_)*?><})'
+DATABASE_URL = 'postgres://ees:ees123@127.0.0.1:5432/eesdb'
 ALLOWED_HOSTS = []
 
 # Application definition
@@ -21,7 +24,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ees.core'
+    'ees.core',
+    'web',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +62,7 @@ WSGI_APPLICATION = 'ees.wsgi.application'
 # Database
 DATABASES = {
     'default': dj_database_url.config(
-      default = config('DATABASE_URL'))
+        default=config('DATABASE_URL'))
 }
 
 
