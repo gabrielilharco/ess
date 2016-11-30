@@ -3,8 +3,16 @@
 """Database reader."""
 import pandas as pd
 
-# reader = pd.read_stata('ESS7PT.dta', chunksize=10)
-# print "ok"
-# for df in reader:
-#     print(df.shape)
-pd.read_stata(filepath_or_buffer='ESS7PT.dta', index=None)
+
+def log_database():
+    """Log the database."""
+    print "## logging fields ##"
+    for field in reader:
+        print(field)
+    print "## logging database ##"
+    print reader
+
+
+# reader = pd.read_stata('carsdata.dta', convert_categoricals=False)
+reader = pd.read_stata('ESS7PT.dta', convert_categoricals=False)
+log_database()
