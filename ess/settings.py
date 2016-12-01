@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# !/usr/bin/env python
+"""Project Settings."""
 import os
 import dj_database_url
 from decouple import config, Csv
@@ -57,7 +60,7 @@ WSGI_APPLICATION = 'ess.wsgi.application'
 # Database
 DATABASES = {
     'default': dj_database_url.config(
-      default = config('DATABASE_URL'))
+        default=config('DATABASE_URL'))
 }
 
 
