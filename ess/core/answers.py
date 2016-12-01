@@ -77,7 +77,7 @@ QA = {
 			1: 'Very safe',
 			2: 'Safe',
 			3: 'Unsafe',
-			4: 'Very unsafe'
+			4: 'Very unsafe',
 			7: 'Refusal',
 			8: 'Dont know',
 			9: 'No answer'

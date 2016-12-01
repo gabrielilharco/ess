@@ -10,7 +10,6 @@ DEBUG=True
 CSRF_COOKIE_SECURE=False
 SESSION_COOKIE_SECURE=False
 SECRET_KEY='1982nd8sj&6^09213mDkj~%@^@(*#BX}|{_)*?><})'
-DATABASE_URL='postgres://ees:ees123@127.0.0.1:5432/eesdb'
 ALLOWED_HOSTS = []
 
 # Application definition
@@ -21,7 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ees.core'
+    'ess.core'
 ]
 
 MIDDLEWARE = [
@@ -34,7 +33,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'ees.urls'
+ROOT_URLCONF = 'ess.urls'
 
 TEMPLATES = [
     {
@@ -52,7 +51,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'ees.wsgi.application'
+WSGI_APPLICATION = 'ess.wsgi.application'
 
 
 # Database
