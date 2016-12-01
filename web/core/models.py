@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-from ess.core.answers import QA
+from data.answers import QA
 import sys
 
 # How happy are you
