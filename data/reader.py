@@ -18,14 +18,14 @@ def log_database():
     print reader
 
 
-def pos(column):
+def val(entry, column):
     """Column index inside entry."""
-    return selected_columns.index(column)
+    return entry[selected_columns.index(column)]
 
 
-def pos_q(question):
+def quest(entry, question):
     """Question index inside entry."""
-    return pos(QA['Q' + question]['acronym'])
+    return int(val(entry, QA['Q' + question]['acronym']))
 
 
 def populate_survey(reader):
@@ -33,22 +33,15 @@ def populate_survey(reader):
     for entry in reader.values:
         survey = Survey()
         survey.objects.update_or_create(
-            name=entry[pos('name')],
-            idno=entry[pos('idno')],
-            cntry=entry[pos('cntry')],
-            q1=entry[pos_q('1')],
-            q2=entry[pos_q('2')],
-            q3=entry[pos_q('3')],
-            q4=entry[pos_q('4')],
-            q5=entry[pos_q('5')],
-            q6=entry[pos_q('6')],
-            q7=entry[pos_q('7')],
-            q8=entry[pos_q('8')],
-            q9=entry[pos_q('9')],
-            q10=entry[pos_q('10')],
-            dweight=entry[pos('dweight')],
-            pspweight=entry[pos('pspwght')],
-            pweight=entry[pos('pweight')]
+            idno=int(val(entry, 'idno')),
+            name=val(entry, 'name'), cntry=val(entry, 'cntry'),
+            q1=quest(entry, '1'), q2=quest(entry, '2'), q3=quest(entry, '3'),
+            q4=quest(entry, '4'), q5=quest(entry, '5'), q6=quest(entry, '6'),
+            q7=quest(entry, '7'), q8=quest(entry, '8'), q9=quest(entry, '9'),
+            q10=quest(entry, '10'),
+            dweight=float(val(entry, 'dweight')),
+            pspweight=float(val(entry, 'pspwght')),
+            pweight=float(val(entry, 'pweight'))
         )
 
 
@@ -56,8 +49,8 @@ def populate_survey(reader):
 # reader = pd.read_stata('carsdata.dta', convert_categoricals=False)
 
 # Selecting databases and columns
-# databases = ['ESS7PT.dta', 'ESS7IL.dta', 'ESS7GB.dta']
-databases = ['ESS7PT.dta']
+# databases = ['ESS7PT.dta']
+databases = ['ESS7PT.dta', 'ESS7IL.dta', 'ESS7GB.dta']
 selected_columns = ['name', 'idno', 'cntry', 'dweight', 'pspwght', 'pweight']
 for question, fields in QA.iteritems():
     selected_columns.append(fields['acronym'])
@@ -68,4 +61,4 @@ for database in databases:
                            convert_categoricals=False,
                            columns=selected_columns)
     populate_survey(reader)
-log_database()
+# log_database()
