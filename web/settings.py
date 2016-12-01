@@ -9,10 +9,10 @@ from unipath import Path
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DEBUG=True
-CSRF_COOKIE_SECURE=False
-SESSION_COOKIE_SECURE=False
-SECRET_KEY='1982nd8sj&6^09213mDkj~%@^@(*#BX}|{_)*?><})'
+DEBUG = True
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
+SECRET_KEY = '1982nd8sj&6^09213mDkj~%@^@(*#BX}|{_)*?><})'
 ALLOWED_HOSTS = []
 
 # Application definition
@@ -23,7 +23,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'web.core'
+    'web.core',
+    'data',
 ]
 
 MIDDLEWARE = [
