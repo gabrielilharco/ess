@@ -1,36 +1,82 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 
-class Country(models.Model):
-	key = models.CharField(null=False, blank=False, max_length=5)
-	name = models.CharField(null=False, blank=False, max_length=100)
-	
-	class Meta:
-		db_table = 'ees_country'
-
-class Language(models.Model):
-	key = models.CharField(null=False, blank=False, max_length=5)
-	name = models.CharField(null=False, blank=False, max_length=100)
-	
-	class Meta:
-		db_table = 'ees_language'
-
-class Occupation(models.Model):
+# How happy are you
+class Q1(models.Model):
 	key = models.IntegerField(null=False, blank=False)
 	name = models.CharField(null=False, blank=False, max_length=100)
 	
 	class Meta:
-		db_table = 'ees_occupation'
+		db_table = 'q1'
 
-class Industry(models.Model):
+# How often socially meet with friends, relatives or colleagues
+class Q2(models.Model):
 	key = models.IntegerField(null=False, blank=False)
 	name = models.CharField(null=False, blank=False, max_length=100)
 	
 	class Meta:
-		db_table = 'ees_industry'
+		db_table = 'q2'
 
-class Ancestry(models.Model):
+# How many people with whom you can discuss intimate and personal matters
+class Q3(models.Model):
 	key = models.IntegerField(null=False, blank=False)
 	name = models.CharField(null=False, blank=False, max_length=100)
 	
 	class Meta:
-		db_table = 'ees_ancestry'
+		db_table = 'q3'
+
+# Take part in social activities compared to others of same age
+class Q4(models.Model):
+	key = models.IntegerField(null=False, blank=False)
+	name = models.CharField(null=False, blank=False, max_length=100)
+	
+	class Meta:
+		db_table = 'q4'
+
+# Respondent or household member victim of burglary/assault last 5 years
+class Q5(models.Model):
+	key = models.IntegerField(null=False, blank=False)
+	name = models.CharField(null=False, blank=False, max_length=100)
+	
+	class Meta:
+		db_table = 'q5'
+
+# Feeling of safety of walking alone in local area after dark
+class Q6(models.Model):
+	key = models.IntegerField(null=False, blank=False)
+	name = models.CharField(null=False, blank=False, max_length=100)
+	
+	class Meta:
+		db_table = 'q6'
+
+# Subjective general health
+class Q7(models.Model):
+	key = models.IntegerField(null=False, blank=False)
+	name = models.CharField(null=False, blank=False, max_length=100)
+	
+	class Meta:
+		db_table = 'q7'
+
+# Hampered in daily activities by illness/disability/infirmity/mental problem
+class Q8(models.Model):
+	key = models.IntegerField(null=False, blank=False)
+	name = models.CharField(null=False, blank=False, max_length=100)
+	
+	class Meta:
+		db_table = 'q8'
+
+# Member of a group discriminated against in this country
+class Q9(models.Model):
+	key = models.IntegerField(null=False, blank=False)
+	name = models.CharField(null=False, blank=False, max_length=100)
+	
+	class Meta:
+		db_table = 'q9'
+
+# Belong to minority ethnic group in country
+class Q10(models.Model):
+	key = models.IntegerField(null=False, blank=False)
+	name = models.CharField(null=False, blank=False, max_length=100)
+	
+	class Meta:
+		db_table = 'q10'
