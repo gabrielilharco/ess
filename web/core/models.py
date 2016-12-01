@@ -3,6 +3,22 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from data.answers import QA
 import sys
 
+
+class Survey(models.Model):
+	Q1 = models.ForeignKey('Q1', on_delete=models.CASCADE)
+	Q2 = models.ForeignKey('Q2', on_delete=models.CASCADE)
+	Q3 = models.ForeignKey('Q3', on_delete=models.CASCADE)
+	Q4 = models.ForeignKey('Q4', on_delete=models.CASCADE)
+	Q5 = models.ForeignKey('Q5', on_delete=models.CASCADE)
+	Q6 = models.ForeignKey('Q6', on_delete=models.CASCADE)
+	Q7 = models.ForeignKey('Q7', on_delete=models.CASCADE)
+	Q8 = models.ForeignKey('Q8', on_delete=models.CASCADE)
+	Q9 = models.ForeignKey('Q9', on_delete=models.CASCADE)
+	Q10 = models.ForeignKey('Q10', on_delete=models.CASCADE)
+	
+	class Meta:
+		db_table = 'survey'
+
 # How happy are you
 class Q1(models.Model):
 	key = models.IntegerField(null=False, blank=False, unique=True)
