@@ -2,9 +2,10 @@
 # !/usr/bin/env python
 """Django Models."""
 from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator
 from data.answers import QA
 import sys
+
+columns = []
 
 
 class Survey(models.Model):
@@ -159,3 +160,35 @@ def populate_qa():
         question_cls = getattr(sys.modules[__name__], question)
         for key, val in fields['answers'].iteritems():
             question_cls.objects.update_or_create(key=key, description=val)
+
+
+def val(entry, column):
+    """Column index inside entry."""
+    return entry[columns.index(column)]
+
+
+def quest(entry, n_question):
+    """Question index inside entry."""
+    question = 'Q' + n_question
+    key = int(val(entry, QA[question]['acronym']))
+    question_cls = getattr(sys.modules[__name__], question)
+    return question_cls.objects.get(key=key)
+
+
+def populate_survey(reader, cols):
+    """Populate the database with survey answers."""
+    global columns
+    columns = cols
+    for entry in reader.values:
+        survey = Survey(
+            idno=int(val(entry, 'idno')),
+            name=val(entry, 'name'), cntry=val(entry, 'cntry'),
+            Q1=quest(entry, '1'), Q2=quest(entry, '2'), Q3=quest(entry, '3'),
+            Q4=quest(entry, '4'), Q5=quest(entry, '5'), Q6=quest(entry, '6'),
+            Q7=quest(entry, '7'), Q8=quest(entry, '8'), Q9=quest(entry, '9'),
+            Q10=quest(entry, '10'),
+            dweight=float(val(entry, 'dweight')),
+            pspwght=float(val(entry, 'pspwght')),
+            pweight=float(val(entry, 'pweight')),
+        )
+        survey.save()
