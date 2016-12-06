@@ -28,7 +28,7 @@ def manage(request):
 def analyse(request):
     """Manage page."""
     return render_to_response(
-        'index.html', context_instance=RequestContext(request))
+        'analyse.html', context_instance=RequestContext(request))
 
 def get_survey_np_data():
     """Returns all survey answers as np data"""
