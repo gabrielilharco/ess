@@ -9,6 +9,7 @@ import numpy as np
 from sklearn import svm, tree, naive_bayes, neighbors
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
+from data.analysis import frequency_counter
 
 def index(request):
     """Index page."""
@@ -27,12 +28,13 @@ def manage(request):
 
 
 def analyse(request):
-    """Analyse page."""
+    """Analysis page."""
     if request.method == 'POST':
-        print(request.POST.get("question", ""))
-        return render(request, 'analyse.html', {'loaded': True, 'data': QA})
+        q = request.POST.get("question", "")
+        print(q)
+        return render(request, 'analyse.html', {'analysis': frequency_counter(q), 'data': QA})
 
-    return render(request, 'analyse.html', {'data': QA})
+    return render(request, 'analyse.html', {'analysis': {}, 'data': QA})
 
 def get_survey_np_data():
     """Returns all survey answers as np data"""
