@@ -3,6 +3,7 @@
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 from data.reader import load_database
+from data.answers import QA
 from web.core.models import Survey
 import numpy as np
 from sklearn import svm, tree, naive_bayes, neighbors
@@ -26,9 +27,12 @@ def manage(request):
 
 
 def analyse(request):
-    """Manage page."""
-    return render_to_response(
-        'analyse.html', context_instance=RequestContext(request))
+    """Analyse page."""
+    if request.method == 'POST':
+        print(request.POST.get("question", ""))
+        return render(request, 'analyse.html', {'loaded': True, 'data': QA})
+
+    return render(request, 'analyse.html', {'data': QA})
 
 def get_survey_np_data():
     """Returns all survey answers as np data"""

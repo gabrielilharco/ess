@@ -95,7 +95,17 @@
         <div class="starter-template">
             <h1>Analyse Database</h1>
             <p>Here you can visualize custom charts about database.</p>
-            
+            <form class="form" action="/analyse/" method="post">
+                {% csrf_token %}
+                <label for="sel1">Select question you want to analyse:</label>
+                <select class="form-control" name="question">
+                    {% for q, val in data.items %}
+                    <option value = {{ q }}>{{ val.question }}</option>
+                    {% endfor %}
+                </select>
+                <button id="load" class="btn btn-lg btn-warning" type="submit">Make query
+                    <span class="glyphicon glyphicon-refresh"></span></button>
+            </form>
         </div>
     </div>
     <div id="chart-div"></div>
