@@ -34,13 +34,13 @@ def analyse(request):
         q = request.POST.get("question", "")
         t = request.POST.get("type", "")
         if t == 'piechart':
-            return render(request, 'analyse.html', {'analysis': frequency_counter(q), 'data': QA})
+            return render(request, 'analyse.html', {'analysis': frequency_counter(q), 'data': QA, 'p': True, 'question':q})
         elif t == 'treemap':
-            return render(request, 'analyse.html', {'analysis': frequency_by_country(q), 'data': QA})
+            return render(request, 'analyse.html', {'analysis': frequency_by_country(q), 'data': QA, 'p': True, 'question':q, 'treemap': True})
         else:
-            return render(request, 'analyse.html', {'analysis': {'error': True}, 'data': QA})
+            return render(request, 'analyse.html', {'analysis': {'error': True}, 'data': QA, 'p': True, 'question':q})
 
-    return render(request, 'analyse.html', {'analysis': {}, 'data': QA})
+    return render(request, 'analyse.html', {'analysis': {}, 'data': QA, 'p': False})
 
 
 def predict(request):
