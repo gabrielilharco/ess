@@ -82,43 +82,17 @@
 
         function drawTreeMap() {
             var data = google.visualization.arrayToDataTable([
-              ['Information', 'Parent', 'Number of ocorrencies (size)', 'Number of ocorrencies (color)'],
-              ['Global',    null,                 0,                               0],
-              ['America',   'Global',             0,                               0],
-              ['Europe',    'Global',             0,                               0],
-              ['Asia',      'Global',             0,                               0],
-              ['Australia', 'Global',             0,                               0],
-              ['Africa',    'Global',             0,                               0],
-              ['Brazil',    'America',            11,                              10],
-              ['USA',       'America',            52,                              31],
-              ['Mexico',    'America',            24,                              12],
-              ['Canada',    'America',            16,                              -23],
-              ['France',    'Europe',             42,                              -11],
-              ['Germany',   'Europe',             31,                              -2],
-              ['Sweden',    'Europe',             22,                              -13],
-              ['Italy',     'Europe',             17,                              4],
-              ['UK',        'Europe',             21,                              -5],
-              ['China',     'Asia',               36,                              4],
-              ['Japan',     'Asia',               20,                              -12],
-              ['India',     'Asia',               40,                              63],
-              ['Laos',      'Asia',               4,                               34],
-              ['Mongolia',  'Asia',               1,                               -5],
-              ['Israel',    'Asia',               12,                              24],
-              ['Iran',      'Asia',               18,                              13],
-              ['Pakistan',  'Asia',               11,                              -52],
-              ['Egypt',     'Africa',             21,                              0],
-              ['S. Africa', 'Africa',             30,                              43],
-              ['Sudan',     'Africa',             12,                              2],
-              ['Congo',     'Africa',             10,                              12],
-              ['Zaire',     'Africa',             8,                               10]
+              ['Information', 'Parent', 'Number of occurrences'],
+              ['Global', null, 0]           
+              {% for row in analysis.frequency %}
+                  ,{{ row|safe }}
+              {% endfor %}
             ]);
 
             tree = new google.visualization.TreeMap(document.getElementById('chart-div'));
             
             var options = {
                 highlightOnMouseOver: true,
-                maxDepth: 1,
-                maxPostDepth: 2,
                 minHighlightColor: '#8c6bb1',
                 midHighlightColor: '#9ebcda',
                 maxHighlightColor: '#edf8fb',
@@ -128,10 +102,17 @@
                 headerHeight: 15,
                 showScale: true,
                 height: 500,
-                useWeightedAverageForAggregation: true
+                useWeightedAverageForAggregation: true,
+                generateTooltip: showFullTooltip
             };
             tree.draw(data, options);
 
+            function showFullTooltip(row, size, value) {
+                return '<div style="background:#fd9; padding:10px; border-style:solid">' +
+                '<span style="font-family:Courier"><b>' + data.getValue(row, 0)  +
+                '</b></span><br>' +
+                'Total Occurrences: ' + size + '<br>' + ' </div>';
+            }
         }
     </script>
 </head>
@@ -177,7 +158,7 @@
                     <option value ="piechart">Pie Chart</option>
                     <option value = "treemap">Tree Map</option>
                 </select>
-                <button id="load" class="btn btn-lg btn-warning" style="margin-top:30px" type="submit">Predict
+                <button id="load" class="btn btn-lg btn-warning" style="margin-top:30px" type="submit">Make query
                     <span class="glyphicon glyphicon-refresh"></span></button>
             </form>
         </div>
