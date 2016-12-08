@@ -32,3 +32,7 @@ def analyse(request):
 
     return render(request, 'analyse.html', {'analysis': {}, 'data': QA})
 
+
+def predict(request):
+    """Prediction page"""    
+    return render(request, 'predict.html', {'data': QA})

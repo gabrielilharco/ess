@@ -20,10 +20,25 @@
         padding: 40px 15px;
         text-align: center;
     }
+
+    #preloader {
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 999;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        opacity: 0.8;
+        background: #333 url('http://files.mimoymima.com/images/loading.gif') no-repeat center center;
+    }
     </style>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 
 <body>
+    <div id="preloader"></div>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -47,28 +62,22 @@
     </nav>
     <div class="container">
         <div class="starter-template">
-            <h1>European Social Survey</h1>
-            <p class="lead">
-                The European Social Survey (ESS) is an academically driven cross-national survey that has been conducted across Europe since 2001. Every two years, face-to-face interviews are conducted with newly selected, cross-sectional samples.</p>
-            <p>
-                In 2005 the ESS was the winner of the Descartes Prize for Research & Science Communication. Following an application to the European Commission which was submitted by the UK on behalf of 14 other countries, the ESS was awarded European Research Infrastructure Consortium (ERIC) status on 30th November 2013.
-            </p>
-            <p>
-                The Director of the ESS ERIC is Dr. Rory Fitzgerald and the ESS ERIC Headquarters are located at City, University of London.
-            </p>
-            <div class="row">
-                <button class="btn btn-lg btn-default" onclick="location.href='/manage/'; return false;">Manage
-                    <span class="glyphicon glyphicon-cog"></span></button>
-                <button class="btn btn-lg btn-primary" onclick="location.href='/analyse/'; return false;">Analyse
-                    <span class="glyphicon glyphicon-search"></span></button>
-                <button class="btn btn-lg btn-info" onclick="location.href='/predict/'; return false;">Predict
-                    <span class="glyphicon glyphicon-search"></span></button>
-            </div>
-            <a href="http://www.europeansocialsurvey.org/">ESS Index</a>
-            <br>
-            <a href="http://nesstar.ess.nsd.uib.no/webview/">ESS WebView</a>
+            <h1>Data Mining models analysis</h1>
+            <p>Here you can visualize the predictions results for different classification algorithms using the database.</p>
+            <form class="form" action="/predict/" method="post">
+                {% csrf_token %}
+                <label for="sel1">Select question you want to analyse:</label>
+                <select class="form-control" name="question" style="max-width: 500px; margin: auto; margin-top:20px;">
+                    {% for q, val in data.items %}
+                    <option value = {{ q }}>{{ val.question }}</option>
+                    {% endfor %}
+                </select>
+                <button id="load" class="btn btn-lg btn-warning" style="margin-top:30px" type="submit">Predict
+                    <span class="glyphicon glyphicon-refresh"></span></button>
+            </form>
         </div>
     </div>
+    <div id="chart-div"></div>
     <!-- /.container -->
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -78,6 +87,14 @@
     window.jQuery || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"><\/script>')
     </script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('#preloader').fadeOut('slow');
+    });
+    $("#load").click(function() {
+        $('#preloader').fadeIn('fast');
+    });
+    </script>
 </body>
 
 </html>

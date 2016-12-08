@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^$', views.index),
     url(r'^manage/$', views.manage),
     url(r'^analyse/$', views.analyse),
+    url(r'^predict/$', views.predict),
 ]
