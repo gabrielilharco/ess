@@ -87,6 +87,32 @@ def frequency_by_country(questionID):
 			freq_answers.append([treatCountrys(country) + ' - ' + str(obj.description), str(obj.description), frequency])
 	return { 'type': 'treemap', 'success': True, 'question': questionID, 'frequency': freq_answers }
 
+def frequency_by_country_bar(questionID):
+	if questionID not in valid_questions:
+		return { 'error': True }
+
+	ct = ContentType.objects.get(model=questionID.lower())
+	question = ct.model_class()
+
+	country_obj = Survey.objects.distinct('cntry')
+	countrys = []
+	for obj in country_obj:
+		countrys.append(obj.cntry)
+
+	freq_answers = []
+	for obj in question.objects.all():
+		row = [str(obj.description)]
+		for country in countrys:
+			frequency = Survey.objects.filter(**{questionID: obj.key}).filter(**{'cntry': country}).count()
+			row.append(frequency)
+		freq_answers.append(row)
+
+	correctCountrys = []
+	for country in countrys:
+		correctCountrys.append(treatCountrys(country))
+	return { 'type': 'barchart', 'success': True, 'question': questionID, 'countrys': correctCountrys, 'frequency': freq_answers }
+
+
 def treatCountrys(country):
 	if country == 'GB':
 		return 'United Kingdom'

@@ -5,7 +5,7 @@ from django.template import RequestContext
 from data.reader import load_database
 from data.answers import QA
 from web.core.models import Survey
-from data.analysis import frequency_counter, frequency_by_country, get_statistics, getCategories
+from data.analysis import frequency_counter, frequency_by_country, frequency_by_country_bar, get_statistics, getCategories
 from django.utils.safestring import mark_safe
 
 def index(request):
@@ -36,7 +36,9 @@ def analyse(request):
         if t == 'piechart':
             return render(request, 'analyse.html', {'analysis': frequency_counter(q), 'data': QA, 'p': True, 'question':q})
         elif t == 'treemap':
-            return render(request, 'analyse.html', {'analysis': frequency_by_country(q), 'data': QA, 'p': True, 'question':q, 'treemap': True})
+            return render(request, 'analyse.html', {'analysis': frequency_by_country(q), 'data': QA, 'p': True, 'question':q})
+        elif t == 'barchart':
+            return render(request, 'analyse.html', {'analysis': frequency_by_country_bar(q), 'data': QA, 'p': True, 'question': q})
         else:
             return render(request, 'analyse.html', {'analysis': {'error': True}, 'data': QA, 'p': True, 'question':q})
 
