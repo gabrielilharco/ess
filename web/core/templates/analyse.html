@@ -82,7 +82,7 @@
 
         function drawTreeMap() {
             var data = google.visualization.arrayToDataTable([
-              ['Location', 'Parent', 'Market trade volume (size)', 'Market increase/decrease (color)'],
+              ['Information', 'Parent', 'Number of ocorrencies (size)', 'Number of ocorrencies (color)'],
               ['Global',    null,                 0,                               0],
               ['America',   'Global',             0,                               0],
               ['Europe',    'Global',             0,                               0],
@@ -165,19 +165,19 @@
             <p>Here you can visualize custom charts about database.</p>
             <form class="form" action="/analyse/" method="post">
                 {% csrf_token %}
-                <label for="sel1">Select question you want to analyse:</label>
-                <select class="form-control" name="question">
+                <label style="margin-top: 30px;" for="question">Select question you want to analyse:</label>
+                <select class="form-control" name="question" style="max-width: 500px; margin: auto; margin-top:20px; margin-bottom: 30px;">
                     {% for q, val in data.items %}
                     <option value = {{ q }}>{{ val.question }}</option>
                     {% endfor %}
                 </select>
 
                 <label for="sel2">Select type of analysis:</label>
-                <select class="form-control" name="type">
+                <select class="form-control" name="type" style="max-width: 500px; margin: auto; margin-top:20px;">
                     <option value ="piechart">Pie Chart</option>
                     <option value = "treemap">Tree Map</option>
                 </select>
-                <button id="load" class="btn btn-lg btn-warning" type="submit">Make query
+                <button id="load" class="btn btn-lg btn-warning" style="margin-top:30px" type="submit">Predict
                     <span class="glyphicon glyphicon-refresh"></span></button>
             </form>
         </div>
