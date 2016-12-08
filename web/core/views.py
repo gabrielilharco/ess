@@ -5,9 +5,8 @@ from django.template import RequestContext
 from data.reader import load_database
 from data.answers import QA
 from web.core.models import Survey
-from data.analysis import frequency_counter
-from data.analysis import frequency_by_country
-
+from data.analysis import frequency_counter, frequency_by_country, get_statistics, getCategories
+from django.utils.safestring import mark_safe
 
 def index(request):
     """Index page."""
@@ -34,8 +33,6 @@ def analyse(request):
     if request.method == 'POST':
         q = request.POST.get("question", "")
         t = request.POST.get("type", "")
-        print(q)
-        print(t)
         if t == 'piechart':
             return render(request, 'analyse.html', {'analysis': frequency_counter(q), 'data': QA})
         elif t == 'treemap':
@@ -54,5 +51,21 @@ def predict(request):
         3: 'Gaussian Naive Bayes',
         4: 'Nearest Neighbors'
     }
+    if request.method == 'POST':
+        question = request.POST.get("question", "")
+        algorithm = int(request.POST.get("algorithm", "1"))
+        cm, acc = get_statistics(question, algorithm)
+        data = format_cm(cm)
+        categories = str(getCategories(question))
+        return render(request, 'predict.html', {'data': QA, 'algorithms': algorithms, 'printcm': True, 'formatted_cm': data, 'categories': mark_safe(categories)})
 
-    return render(request, 'predict.html', {'data': QA, 'algorithms': algorithms})
+    return render(request, 'predict.html', {'data': QA, 'algorithms': algorithms, 'printcm': False})
+
+
+def format_cm(cm):
+    sz = len(cm)
+    formatted_cm = []
+    for i in range(sz):
+        for j in range(sz):
+            formatted_cm.append([sz-i-1,j,cm[i][j]])
+    return str(formatted_cm)

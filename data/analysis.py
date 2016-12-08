@@ -5,6 +5,7 @@ import numpy as np
 from sklearn import svm, tree, naive_bayes, neighbors
 from sklearn.metrics import confusion_matrix, accuracy_score
 from web.core.models import Survey
+from data.answers import QA
 
 valid_questions = ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7', 'Q8', 'Q9', 'Q10']
 
@@ -95,3 +96,10 @@ def treatCountrys(country):
 		return 'Israel'
 	else:
 		return country
+
+def getCategories(question):
+	info = QA[question]
+	categories = []
+	for key, val in info['answers'].items():
+		categories.append(val)
+	return categories
