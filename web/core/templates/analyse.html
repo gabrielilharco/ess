@@ -36,12 +36,16 @@
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-        // Load the Visualization API and the corechart package.
-        google.charts.load('current', {'packages':['corechart']});
-
         // Set a callback to run when the Google Visualization API is loaded.
         {% if analysis.success %}
-        google.charts.setOnLoadCallback(drawChart);
+        {% if analysis.type == 'piechart' %}
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawPieChart);
+        {% endif %}
+        {% if analysis.type == 'treemap' %}
+        google.charts.load('current', {'packages':['treemap']});
+        google.charts.setOnLoadCallback(drawTreeMap);
+        {% endif %}
         {% endif %}
         {% if analysis.error %}
 
@@ -49,7 +53,7 @@
         // Callback that creates and populates a data table,
         // instantiates the pie chart, passes in the data and
         // draws it.
-        function drawChart() {
+        function drawPieChart() {
 
             // Create the data table.
             var data = new google.visualization.DataTable();
@@ -74,6 +78,41 @@
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.PieChart(document.getElementById('chart-div'));
             chart.draw(data, options);
+        }
+
+        function drawTreeMap() {
+            var data = google.visualization.arrayToDataTable([
+              ['Information', 'Parent', 'Number of occurrences'],
+              ['Global', null, 0]           
+              {% for row in analysis.frequency %}
+                  ,{{ row|safe }}
+              {% endfor %}
+            ]);
+
+            tree = new google.visualization.TreeMap(document.getElementById('chart-div'));
+            
+            var options = {
+                highlightOnMouseOver: true,
+                minHighlightColor: '#8c6bb1',
+                midHighlightColor: '#9ebcda',
+                maxHighlightColor: '#edf8fb',
+                minColor: '#009688',
+                midColor: '#f7f7f7',
+                maxColor: '#ee8100',
+                headerHeight: 15,
+                showScale: true,
+                height: 500,
+                useWeightedAverageForAggregation: true,
+                generateTooltip: showFullTooltip
+            };
+            tree.draw(data, options);
+
+            function showFullTooltip(row, size, value) {
+                return '<div style="background:#fd9; padding:10px; border-style:solid">' +
+                '<span style="font-family:Courier"><b>' + data.getValue(row, 0)  +
+                '</b></span><br>' +
+                'Total Occurrences: ' + size + '<br>' + ' </div>';
+            }
         }
     </script>
 </head>
@@ -107,13 +146,19 @@
             <p>Here you can visualize custom charts about database.</p>
             <form class="form" action="/analyse/" method="post">
                 {% csrf_token %}
-                <label for="sel1">Select question you want to analyse:</label>
-                <select class="form-control" name="question">
+                <label style="margin-top: 30px;" for="question">Select question you want to analyse:</label>
+                <select class="form-control" name="question" style="max-width: 500px; margin: auto; margin-top:20px; margin-bottom: 30px;">
                     {% for q, val in data.items %}
                     <option value = {{ q }}>{{ val.question }}</option>
                     {% endfor %}
                 </select>
-                <button id="load" class="btn btn-lg btn-warning" type="submit">Make query
+
+                <label for="sel2">Select type of analysis:</label>
+                <select class="form-control" name="type" style="max-width: 500px; margin: auto; margin-top:20px;">
+                    <option value ="piechart">Pie Chart</option>
+                    <option value = "treemap">Tree Map</option>
+                </select>
+                <button id="load" class="btn btn-lg btn-warning" style="margin-top:30px" type="submit">Make query
                     <span class="glyphicon glyphicon-refresh"></span></button>
             </form>
         </div>
