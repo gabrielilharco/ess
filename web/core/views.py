@@ -41,7 +41,7 @@ def analyse(request):
         elif t == 'treemap':
             return render(request, 'analyse.html', {'analysis': frequency_by_country(q), 'data': QA})
         else:
-            return render(request, 'analyse.html', {'analysis': { 'error': True }, 'data': QA})
+            return render(request, 'analyse.html', {'analysis': {'error': True}, 'data': QA})
 
     return render(request, 'analyse.html', {'analysis': {}, 'data': QA})
 
@@ -50,7 +50,7 @@ def predict(request):
     """Prediction page"""
     algorithms = {
         1: 'Support Vector Machine',
-        2: 'Decition Trees',
+        2: 'Decision Trees',
         3: 'Gaussian Naive Bayes',
         4: 'Nearest Neighbors'
     }
