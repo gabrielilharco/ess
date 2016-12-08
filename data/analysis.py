@@ -34,7 +34,7 @@ def get_statistics(question, algorithm):
     surveys = get_survey_np_data()
     q_set = [4,5,6,7,8,9,10,11,12,13]
     q_set.remove(label)
-    X = surveys[:, q_set]
+    X = surveys[:, q_set].astype(np.float)
     y = surveys[:, [label]].ravel()
     
     if algorithm == 1:

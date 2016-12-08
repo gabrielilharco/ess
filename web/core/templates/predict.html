@@ -76,13 +76,25 @@
                 <label style="margin-top: 20px;" for="question">Select question you want to analyse:</label>
                 <select class="form-control" name="question" style="max-width: 500px; margin: auto; margin-top:20px; margin-bottom: 30px;">
                     {% for q, val in data.items %}
-                    <option value = {{ q }}>{{ val.question }}</option>
+                    <option value = {{ q }}
+                        {% if printcm %}
+                            {% ifequal question q %}
+                                selected
+                            {% endifequal%}
+                        {% endif %}
+                    >{{ val.question }}</option>
                     {% endfor %}
                 </select>
                 <label for="algorithm" >Select the data mining algorithm:</label>
                 <select class="form-control" name="algorithm" style="max-width: 500px; margin: auto; margin-top:20px;">
                     {% for id, name in algorithms.items %}
-                    <option value = {{ id }}>{{ name }}</option>
+                    <option value = {{ id }}
+                        {% if printcm %}
+                            {% ifequal id algorithm %}
+                                selected
+                            {% endifequal%}
+                        {% endif %}
+                    >{{ name }}</option>
                     {% endfor %}
                 </select>
                 <button id="load" class="btn btn-lg btn-warning" style="margin-top:30px" type="submit">Predict
