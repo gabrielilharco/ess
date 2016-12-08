@@ -124,15 +124,21 @@
                     marginBottom: 40
                 },
                 title: {
-                    text: 'Sales per employee per weekday'
+                    text: 'Confusion Matrix'
                 },
                 xAxis: {
                     categories: {{categories}},
-                    title: 'Real'
+                    title: {
+                        text: 'True value',
+                        align: 'middle'
+                    }
                 },
                 yAxis: {
                     categories: {{categories}},
-                    title: 'Predicted'
+                    title: {
+                        text: 'Predicted value',
+                        align: 'middle'
+                    }
                 },
                 colorAxis: {
                     min: 0,
