@@ -36,12 +36,16 @@
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-        // Load the Visualization API and the corechart package.
-        google.charts.load('current', {'packages':['corechart']});
-
         // Set a callback to run when the Google Visualization API is loaded.
         {% if analysis.success %}
-        google.charts.setOnLoadCallback(drawChart);
+        {% if analysis.type == 'piechart' %}
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawPieChart);
+        {% endif %}
+        {% if analysis.type == 'treemap' %}
+        google.charts.load('current', {'packages':['treemap']});
+        google.charts.setOnLoadCallback(drawTreeMap);
+        {% endif %}
         {% endif %}
         {% if analysis.error %}
 
@@ -49,7 +53,7 @@
         // Callback that creates and populates a data table,
         // instantiates the pie chart, passes in the data and
         // draws it.
-        function drawChart() {
+        function drawPieChart() {
 
             // Create the data table.
             var data = new google.visualization.DataTable();
@@ -74,6 +78,60 @@
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.PieChart(document.getElementById('chart-div'));
             chart.draw(data, options);
+        }
+
+        function drawTreeMap() {
+            var data = google.visualization.arrayToDataTable([
+              ['Location', 'Parent', 'Market trade volume (size)', 'Market increase/decrease (color)'],
+              ['Global',    null,                 0,                               0],
+              ['America',   'Global',             0,                               0],
+              ['Europe',    'Global',             0,                               0],
+              ['Asia',      'Global',             0,                               0],
+              ['Australia', 'Global',             0,                               0],
+              ['Africa',    'Global',             0,                               0],
+              ['Brazil',    'America',            11,                              10],
+              ['USA',       'America',            52,                              31],
+              ['Mexico',    'America',            24,                              12],
+              ['Canada',    'America',            16,                              -23],
+              ['France',    'Europe',             42,                              -11],
+              ['Germany',   'Europe',             31,                              -2],
+              ['Sweden',    'Europe',             22,                              -13],
+              ['Italy',     'Europe',             17,                              4],
+              ['UK',        'Europe',             21,                              -5],
+              ['China',     'Asia',               36,                              4],
+              ['Japan',     'Asia',               20,                              -12],
+              ['India',     'Asia',               40,                              63],
+              ['Laos',      'Asia',               4,                               34],
+              ['Mongolia',  'Asia',               1,                               -5],
+              ['Israel',    'Asia',               12,                              24],
+              ['Iran',      'Asia',               18,                              13],
+              ['Pakistan',  'Asia',               11,                              -52],
+              ['Egypt',     'Africa',             21,                              0],
+              ['S. Africa', 'Africa',             30,                              43],
+              ['Sudan',     'Africa',             12,                              2],
+              ['Congo',     'Africa',             10,                              12],
+              ['Zaire',     'Africa',             8,                               10]
+            ]);
+
+            tree = new google.visualization.TreeMap(document.getElementById('chart-div'));
+            
+            var options = {
+                highlightOnMouseOver: true,
+                maxDepth: 1,
+                maxPostDepth: 2,
+                minHighlightColor: '#8c6bb1',
+                midHighlightColor: '#9ebcda',
+                maxHighlightColor: '#edf8fb',
+                minColor: '#009688',
+                midColor: '#f7f7f7',
+                maxColor: '#ee8100',
+                headerHeight: 15,
+                showScale: true,
+                height: 500,
+                useWeightedAverageForAggregation: true
+            };
+            tree.draw(data, options);
+
         }
     </script>
 </head>
@@ -112,6 +170,12 @@
                     {% for q, val in data.items %}
                     <option value = {{ q }}>{{ val.question }}</option>
                     {% endfor %}
+                </select>
+
+                <label for="sel2">Select type of analysis:</label>
+                <select class="form-control" name="type">
+                    <option value ="piechart">Pie Chart</option>
+                    <option value = "treemap">Tree Map</option>
                 </select>
                 <button id="load" class="btn btn-lg btn-warning" type="submit">Make query
                     <span class="glyphicon glyphicon-refresh"></span></button>

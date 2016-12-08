@@ -6,6 +6,7 @@ from data.reader import load_database
 from data.answers import QA
 from web.core.models import Survey
 from data.analysis import frequency_counter
+from data.analysis import frequency_by_country
 
 def index(request):
     """Index page."""
@@ -27,8 +28,15 @@ def analyse(request):
     """Analysis page."""
     if request.method == 'POST':
         q = request.POST.get("question", "")
+        t = request.POST.get("type", "")
         print(q)
-        return render(request, 'analyse.html', {'analysis': frequency_counter(q), 'data': QA})
+        print(t)
+        if t == 'piechart':
+            return render(request, 'analyse.html', {'analysis': frequency_counter(q), 'data': QA})
+        elif t == 'treemap':
+            return render(request, 'analyse.html', {'analysis': frequency_by_country(q), 'data': QA})
+        else:
+            return render(request, 'analyse.html', {'analysis': { 'error': True }, 'data': QA})
 
     return render(request, 'analyse.html', {'analysis': {}, 'data': QA})
 
