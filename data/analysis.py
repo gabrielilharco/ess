@@ -44,7 +44,7 @@ def get_statistics(question, algorithm):
     elif algorithm == 3:
         clf = naive_bayes.GaussianNB()
     else:
-        clf = neighbors.NearestNeighbors()
+        clf = neighbors.KNeighborsClassifier()
 
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
