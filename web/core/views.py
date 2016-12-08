@@ -8,10 +8,17 @@ from web.core.models import Survey
 from data.analysis import frequency_counter, frequency_by_country, frequency_by_country_bar, get_statistics, getCategories
 from django.utils.safestring import mark_safe
 
+
 def index(request):
     """Index page."""
     return render_to_response(
         'index.html', context_instance=RequestContext(request))
+
+
+def about(request):
+    """About page."""
+    return render_to_response(
+        'about.html', context_instance=RequestContext(request))
 
 
 def manage(request):
@@ -34,13 +41,13 @@ def analyse(request):
         q = request.POST.get("question", "")
         t = request.POST.get("type", "")
         if t == 'piechart':
-            return render(request, 'analyse.html', {'analysis': frequency_counter(q), 'data': QA, 'p': True, 'question':q})
+            return render(request, 'analyse.html', {'analysis': frequency_counter(q), 'data': QA, 'p': True, 'question': q})
         elif t == 'treemap':
-            return render(request, 'analyse.html', {'analysis': frequency_by_country(q), 'data': QA, 'p': True, 'question':q})
+            return render(request, 'analyse.html', {'analysis': frequency_by_country(q), 'data': QA, 'p': True, 'question': q})
         elif t == 'barchart':
             return render(request, 'analyse.html', {'analysis': frequency_by_country_bar(q), 'data': QA, 'p': True, 'question': q})
         else:
-            return render(request, 'analyse.html', {'analysis': {'error': True}, 'data': QA, 'p': True, 'question':q})
+            return render(request, 'analyse.html', {'analysis': {'error': True}, 'data': QA, 'p': True, 'question': q})
 
     return render(request, 'analyse.html', {'analysis': {}, 'data': QA, 'p': False})
 
@@ -59,8 +66,8 @@ def predict(request):
         cm, acc = get_statistics(question, algorithm)
         data = format_cm(cm)
         categories = str(getCategories(question))
-        return render(request, 'predict.html', {'data': QA, 'algorithms': algorithms, 'printcm': True, 'formatted_cm': data, 
-            'categories': mark_safe(categories), 'acc': acc, 'question': question, 'algorithm': algorithm})
+        return render(request, 'predict.html', {'data': QA, 'algorithms': algorithms, 'printcm': True, 'formatted_cm': data,
+                                                'categories': mark_safe(categories), 'acc': acc, 'question': question, 'algorithm': algorithm})
 
     return render(request, 'predict.html', {'data': QA, 'algorithms': algorithms, 'printcm': False})
 
@@ -70,5 +77,5 @@ def format_cm(cm):
     formatted_cm = []
     for i in range(sz):
         for j in range(sz):
-            formatted_cm.append([sz-i-1,j,cm[i][j]])
+            formatted_cm.append([sz - i - 1, j, cm[i][j]])
     return str(formatted_cm)
