@@ -34,5 +34,12 @@ def analyse(request):
 
 
 def predict(request):
-    """Prediction page"""    
-    return render(request, 'predict.html', {'data': QA})
+    """Prediction page"""
+    algorithms = {
+        1: 'Support Vector Machine',
+        2: 'Decition Trees',
+        3: 'Gaussian Naive Bayes',
+        4: 'Nearest Neighbors'
+    }
+
+    return render(request, 'predict.html', {'data': QA, 'algorithms': algorithms})

@@ -66,10 +66,16 @@
             <p>Here you can visualize the predictions results for different classification algorithms using the database.</p>
             <form class="form" action="/predict/" method="post">
                 {% csrf_token %}
-                <label for="sel1">Select question you want to analyse:</label>
-                <select class="form-control" name="question" style="max-width: 500px; margin: auto; margin-top:20px;">
+                <label style="margin-top: 30px;" for="question">Select question you want to analyse:</label>
+                <select class="form-control" name="question" style="max-width: 500px; margin: auto; margin-top:20px; margin-bottom: 30px;">
                     {% for q, val in data.items %}
                     <option value = {{ q }}>{{ val.question }}</option>
+                    {% endfor %}
+                </select>
+                <label for="algorithm" >Select the data mining algorithm:</label>
+                <select class="form-control" name="algorithm" style="max-width: 500px; margin: auto; margin-top:20px;">
+                    {% for id, name in algorithms.items %}
+                    <option value = {{ id }}>{{ name }}</option>
                     {% endfor %}
                 </select>
                 <button id="load" class="btn btn-lg btn-warning" style="margin-top:30px" type="submit">Predict
