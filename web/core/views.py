@@ -7,6 +7,7 @@ from data.answers import QA
 from web.core.models import Survey
 from data.analysis import frequency_counter
 
+
 def index(request):
     """Index page."""
     return render_to_response(
@@ -16,7 +17,11 @@ def index(request):
 def manage(request):
     """Manage page."""
     if request.method == 'POST':
-        load_database()
+        countries = {'ESS7PT.dta': request.POST.get('Portugal') == "on",
+                     'ESS7IL.dta': request.POST.get('Israel') == "on",
+                     'ESS7GB.dta': request.POST.get('Great Britain') == "on"
+                     }
+        load_database(countries)
         return render(request, 'manage.html', {'loaded': True})
 
     return render_to_response(

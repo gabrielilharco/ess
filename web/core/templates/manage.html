@@ -64,6 +64,16 @@
             <p>Here you are able to manage ESS database.</p>
             <form class="form" action="/manage/" method="post">
                 {% csrf_token %}
+                <div class="well" style="display: inline-block;">
+                    <p>Select the countries you wish to load.</p>
+                    <label for="Portugal">Portugal</label>
+                    <input type="checkbox" name="Portugal" id="Portugal" checked/>
+                    <label for="Israel">Israel</label>
+                    <input type="checkbox" name="Israel" id="Israel" checked/>
+                    <label for="Great Britain">Great Britain</label>
+                    <input type="checkbox" name="Great Britain" id="Great Britain" checked/>
+                </div>
+                <br>
                 <button id="load" class="btn btn-lg btn-warning" type="submit">Load
                     <span class="glyphicon glyphicon-download"></span></button>
                 {% if loaded %}
