@@ -18,9 +18,8 @@ def frequency_counter(questionID):
     for obj in question.objects.all():
         frequency = Survey.objects.filter(**{questionID: obj.key}).count()
         freq_answers.append([str(obj.description), frequency])
-    return { 'success': True, 'question': questionID, 'frequency': freq_answers }
-    
 
+    return { 'type': 'piechart', 'success': True, 'question': questionID, 'frequency': freq_answers }
 
 def get_survey_np_data():
     """Returns all survey answers as np data"""
@@ -63,3 +62,36 @@ def get_statistics(question, algorithm):
     return cm, accuracy
 
 
+def frequency_by_country(questionID):
+	if questionID not in valid_questions:
+		return { 'error': True }
+
+	ct = ContentType.objects.get(model=questionID.lower())
+	question = ct.model_class()
+
+	country_obj = Survey.objects.distinct('cntry')
+	countrys = []
+	for obj in country_obj:
+		countrys.append(obj.cntry)
+
+	freq_answers = []
+	
+	for obj in question.objects.all():
+		frequency = Survey.objects.filter(**{questionID: obj.key}).count()
+		freq_answers.append([str(obj.description), 'Global', 0])
+
+	for obj in question.objects.all():
+		for country in countrys:
+			frequency = Survey.objects.filter(**{questionID: obj.key}).filter(**{'cntry': country}).count()
+			freq_answers.append([treatCountrys(country) + ' - ' + str(obj.description), str(obj.description), frequency])
+	return { 'type': 'treemap', 'success': True, 'question': questionID, 'frequency': freq_answers }
+
+def treatCountrys(country):
+	if country == 'GB':
+		return 'United Kingdom'
+	elif country == 'PT':
+		return 'Portugal'
+	elif country == 'IL':
+		return 'Israel'
+	else:
+		return country

@@ -18,7 +18,7 @@ def log_database(reader):
     print reader
 
 
-def load_database():
+def load_database(countries):
     """Populate database with survey answers."""
     # Selecting databases and columns
     databases = ['ESS7PT.dta', 'ESS7IL.dta', 'ESS7GB.dta']
@@ -29,10 +29,11 @@ def load_database():
     # Reading and populating data
     populate_qa()
     for database in databases:
-        reader = pd.read_stata('data/database/' + database,
-                               convert_categoricals=False,
-                               columns=columns)
-        populate_survey(reader, columns)
+        if countries[database]:
+            reader = pd.read_stata('data/database/' + database,
+                                   convert_categoricals=False,
+                                   columns=columns)
+            populate_survey(reader, columns)
     # log_database(reader)
 
 
