@@ -57,7 +57,7 @@ def predict(request):
         cm, acc = get_statistics(question, algorithm)
         data = format_cm(cm)
         categories = str(getCategories(question))
-        return render(request, 'predict.html', {'data': QA, 'algorithms': algorithms, 'printcm': True, 'formatted_cm': data, 'categories': mark_safe(categories)})
+        return render(request, 'predict.html', {'data': QA, 'algorithms': algorithms, 'printcm': True, 'formatted_cm': data, 'categories': mark_safe(categories), 'acc': acc})
 
     return render(request, 'predict.html', {'data': QA, 'algorithms': algorithms, 'printcm': False})
 
